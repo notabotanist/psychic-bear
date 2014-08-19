@@ -5,6 +5,7 @@ import Import
 getHandsR :: Handler Html
 getHandsR = do
   let hands = []
+      handView = BettorViewR
   defaultLayout $ do
     $(widgetFile "handlist")
 
