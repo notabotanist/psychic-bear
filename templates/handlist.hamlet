@@ -1,4 +1,4 @@
 <ol>
   $forall hand <- hands
     <li>
-      <a href=@{handView hand}>#{show $ unKey hand}
+      <a href=@{handView hand}>#{either pack id $ fromPersistValueText $ unKey hand}
