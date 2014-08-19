@@ -1,0 +1,4 @@
+<ol>
+  $forall hand <- hands
+    <li>
+      <a href=@{BettorViewR hand}>#{show $ unKey hand}
