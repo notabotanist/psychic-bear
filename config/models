@@ -14,7 +14,7 @@ Hand
 ScrumBet
     hand HandId
     user Int
-    value Int
+    value FibonacciSubset
     lastUpdated UTCTime
     UniqueBet hand user
 
