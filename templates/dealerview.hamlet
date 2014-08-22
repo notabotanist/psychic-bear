@@ -1,0 +1,11 @@
+$doctype 5
+<h1>Dealer View
+<h2>Hand #{either pack id $ fromPersistValueText $ unKey handId} Votes:
+<table>
+  <tr>
+    <td>Points
+    <td>Number of Votes
+  $forall bar <- (bars betGraph)
+    <tr>
+      <td>#{toText $ label bar}
+      <td>#{barCount bar}

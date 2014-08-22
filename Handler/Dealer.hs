@@ -19,7 +19,7 @@ compareBetEntitiesByVal = (==) `on` scrumBetValue . entityVal
 
 data BetGraphBar = BetGraphBar
   { label :: FibonacciSubset
-  , count :: Int
+  , barCount :: Int
   }
   deriving Show
 
@@ -77,5 +77,6 @@ postDealerR = do
 getDealerViewR :: HandId -> Handler Html
 getDealerViewR handId = do
   betEntities <- getBidList handId
-  let groupedBets = groupBy compareBetEntitiesByVal betEntities
-  undefined
+  let betGraph = mkBetGraph . (map $ scrumBetValue . entityVal) $ betEntities
+  defaultLayout $ do
+    $(widgetFile "dealerview")
