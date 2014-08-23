@@ -73,6 +73,7 @@ library
                  , wai-logger                    >= 2.2        && < 2.3
                  , safe                          >= 0.3.7      && < 0.3.9
                  , time                          >= 1.4.0.1    && < 1.4.2
+                 , random                        >= 1.0
 
 executable         psychic-bear
     if flag(library-only)

@@ -5,17 +5,17 @@ import Control.Arrow ((&&&))
 import Data.Time (getCurrentTime)
 import Safe (readMay)
 import Data.Text (unpack)
+import System.Random (randomRIO)
 
 import Model.ScrumBet
 
 userIdSessionKey :: Text
 userIdSessionKey = "scrumuserid"
 
+-- These temporary anonymous user ids only need to be unique among the
+-- participants of a hand for the duration of their sessions' timeouts.
 generateUserId :: Handler Int
-generateUserId = do
-  maybeGreatestUserBet <- runDB $ selectFirst [] [ Desc ScrumBetUser ]
-  let greatestUserId = maybe 0 (scrumBetUser . entityVal) maybeGreatestUserBet
-  return (greatestUserId + 1)
+generateUserId = lift (liftIO $ randomRIO (0, 9999))
 
 getOrGenerateUserId :: Handler Int
 getOrGenerateUserId = do
