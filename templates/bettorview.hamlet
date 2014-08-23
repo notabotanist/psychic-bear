@@ -1,0 +1,7 @@
+$doctype 5
+<h1>Bettor View
+<h2>Hand #{either pack id $ fromPersistValueText $ unKey handId}
+<p>You are User ID #{show userId}
+<form method=post action=@{BetsR handId userId}>
+  ^{formWidget}
+  <input type=submit value="Place your bet">
