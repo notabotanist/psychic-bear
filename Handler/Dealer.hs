@@ -76,6 +76,7 @@ postDealerR = do
 
 getDealerViewR :: HandId -> Handler Html
 getDealerViewR handId = do
+  _ <- runDB $ get404 handId
   betEntities <- getBidList handId
   let betGraph = mkBetGraph . (map $ scrumBetValue . entityVal) $ betEntities
   defaultLayout $ do

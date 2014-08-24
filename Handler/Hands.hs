@@ -52,6 +52,7 @@ getHandsR = do
 
 getBettorViewR :: HandId -> Handler Html
 getBettorViewR handId = do
+  _ <- runDB $ get404 handId
   userId <- getOrGenerateUserId
   ((_, formWidget), _) <- runFormPost $ scrumBetForm handId userId
   mmesg <- getMessage
@@ -60,6 +61,7 @@ getBettorViewR handId = do
 
 postBetsR :: HandId -> Int -> Handler ()
 postBetsR handId userId = do
+  _ <- runDB $ get404 handId
   ((formResult, _),_) <- runFormPost $ scrumBetForm handId userId
   case formResult of
     FormSuccess bet -> do
