@@ -27,6 +27,13 @@ getOrGenerateUserId = do
       setSession userIdSessionKey (pack . show $ userId)
       return userId
 
+insertOrUpdateBet :: ScrumBet -> YesodDB App ScrumBetId
+insertOrUpdateBet bet@(ScrumBet handId userId _ _) = do
+  maybeOldScrumBet <- getBy $ UniqueBet handId userId
+  case maybeOldScrumBet of
+    Nothing -> insert bet
+    Just (Entity oldBetId _) -> replace oldBetId bet >> return oldBetId
+
 scrumBetForm :: HandId -> Int -> Form ScrumBet
 scrumBetForm handId userId = renderDivs $ ScrumBet
   <$> pure handId
@@ -46,9 +53,19 @@ getHandsR = do
 getBettorViewR :: HandId -> Handler Html
 getBettorViewR handId = do
   userId <- getOrGenerateUserId
-  (formWidget, _) <- generateFormPost $ scrumBetForm handId userId
+  ((_, formWidget), _) <- runFormPost $ scrumBetForm handId userId
+  mmesg <- getMessage
   defaultLayout $ do
     $(widgetFile "bettorview")
 
-postBetsR :: HandId -> Int -> Handler Value
-postBetsR = undefined
+postBetsR :: HandId -> Int -> Handler ()
+postBetsR handId userId = do
+  ((formResult, _),_) <- runFormPost $ scrumBetForm handId userId
+  case formResult of
+    FormSuccess bet -> do
+      _ <- runDB $ insertOrUpdateBet bet
+      setMessage $ "Vote submitted."
+      redirect $ BettorViewR handId
+    _ -> do
+      setMessage $ "Vote rejected."
+      redirect $ BettorViewR handId
