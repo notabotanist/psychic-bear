@@ -7,8 +7,6 @@ import Safe (readMay)
 import Data.Text (unpack)
 import System.Random (randomRIO)
 
-import Model.ScrumBet
-
 userIdSessionKey :: Text
 userIdSessionKey = "scrumuserid"
 

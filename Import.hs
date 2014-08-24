@@ -27,3 +27,15 @@ infixr 5 <>
 (<>) :: Monoid m => m -> m -> m
 (<>) = mappend
 #endif
+
+import           Model.ScrumBet       as Import
+
+-- helper functions
+getHandList :: Handler [Entity Hand]
+getHandList =
+  runDB $ selectList [] [ Desc HandCreatedDate, LimitTo 5 ]
+
+getBidList :: HandId -> Handler [Entity ScrumBet]
+getBidList handId =
+  runDB $ selectList [ ScrumBetHand ==. handId ] [ Asc ScrumBetLastUpdated ]
+
