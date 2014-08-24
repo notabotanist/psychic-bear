@@ -1,0 +1,2 @@
+$maybe unanimousValue <- ((.) getUnanimous (map entityVal) $ betEntities)
+  <p>It's unanimous: #{toText unanimousValue}

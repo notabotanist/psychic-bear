@@ -57,4 +57,5 @@ getDealerViewR handId = do
   betEntities <- getBidList handId
   let betGraph = mkBetGraph . (map $ scrumBetValue . entityVal) $ betEntities
   defaultLayout $ do
+    $(widgetFile "unanimous")
     $(widgetFile "dealerview")

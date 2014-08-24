@@ -43,7 +43,7 @@ scrumBetForm handId userId = renderDivs $ ScrumBet
 
 getHandsR :: Handler Html
 getHandsR = do
-  hands <- fmap (map (\(Entity handid _) -> handid)) (runDB $ selectList [] [ Desc HandCreatedDate, LimitTo 5 ])
+  hands <- fmap (map entityKey) getHandList
   let handView = BettorViewR
   defaultLayout $ do
     $(widgetFile "handlist")
@@ -54,7 +54,9 @@ getBettorViewR handId = do
   userId <- getOrGenerateUserId
   ((_, formWidget), _) <- runFormPost $ scrumBetForm handId userId
   mmesg <- getMessage
+  betEntities <- getBidList handId
   defaultLayout $ do
+    $(widgetFile "unanimous")
     $(widgetFile "bettorview")
 
 postBetsR :: HandId -> Int -> Handler ()
