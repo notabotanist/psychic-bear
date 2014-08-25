@@ -17,6 +17,7 @@ import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
+import Text.Lucius (luciusFile)
 import Yesod.Core.Types (Logger)
 
 -- | The site argument for your application. This can be a good place to
@@ -71,6 +72,8 @@ instance Yesod App where
         -- default-layout-wrapper is the entire page. Since the final
         -- value passed to hamletToRepHtml cannot be a widget, this allows
         -- you to use normal widget features in default-layout.
+        primaryColor <- fmap extraPrimaryColor $ getExtra
+        accentColor <- fmap extraAccentColor $ getExtra
 
         pc <- widgetToPageContent $ do
             $(combineStylesheets 'StaticR

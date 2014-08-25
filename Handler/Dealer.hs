@@ -30,7 +30,7 @@ mkBetGraph flatVotes@(f:_) = BetGraph (length flatVotes) (foldBars f flatVotes)
 -- End pure util functions.
 
 handForm :: Form Hand
-handForm = renderDivs $ Hand
+handForm = renderBootstrap $ Hand
   <$> lift (liftIO getCurrentTime)
 
 getDealerR :: Handler Html
@@ -40,6 +40,7 @@ getDealerR = do
   let handView = DealerViewR
       handlistWidget = $(widgetFile "handlist")
   defaultLayout $ do
+    appBarWidget "Dealer"
     $(widgetFile "dealer")
 
 postDealerR :: Handler Html
@@ -57,5 +58,6 @@ getDealerViewR handId = do
   betEntities <- getBidList handId
   let betGraph = mkBetGraph . (map $ scrumBetValue . entityVal) $ betEntities
   defaultLayout $ do
+    appBarWidget $ makeHandTitleText handId
     $(widgetFile "unanimous")
     $(widgetFile "dealerview")

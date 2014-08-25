@@ -33,7 +33,7 @@ insertOrUpdateBet bet@(ScrumBet handId userId _ _) = do
     Just (Entity oldBetId _) -> replace oldBetId bet >> return oldBetId
 
 scrumBetForm :: HandId -> Int -> Form ScrumBet
-scrumBetForm handId userId = renderDivs $ ScrumBet
+scrumBetForm handId userId = renderBootstrap $ ScrumBet
   <$> pure handId
   <*> pure userId
   <*> areq (selectFieldList fibs) "Value" (Just F0)
@@ -46,6 +46,7 @@ getHandsR = do
   hands <- fmap (map entityKey) getHandList
   let handView = BettorViewR
   defaultLayout $ do
+    appBarWidget "Hands"
     $(widgetFile "handlist")
 
 getBettorViewR :: HandId -> Handler Html
@@ -56,6 +57,7 @@ getBettorViewR handId = do
   mmesg <- getMessage
   betEntities <- getBidList handId
   defaultLayout $ do
+    appBarWidget $ makeHandTitleText handId
     $(widgetFile "unanimous")
     $(widgetFile "bettorview")
 

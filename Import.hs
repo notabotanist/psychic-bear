@@ -31,6 +31,8 @@ infixr 5 <>
 import           Model.ScrumBet       as Import
 
 -- helper functions
+import Data.Text (append)
+
 getHandList :: Handler [Entity Hand]
 getHandList =
   runDB $ selectList [] [ Desc HandCreatedDate, LimitTo 5 ]
@@ -44,3 +46,13 @@ getUnanimous [] = Nothing
 getUnanimous ((ScrumBet _ _ v _):bs)
   | all ((v==).scrumBetValue) bs = Just v
   | otherwise                    = Nothing
+
+makeHandTitleText :: HandId -> Text
+makeHandTitleText handId = append
+  ("Hand " :: Text)
+  (((either pack id).fromPersistValueText.unKey) handId)
+
+appBarWidget :: Text -> Widget
+appBarWidget appBarTitle = do
+  primaryColor <- fmap extraPrimaryColor $ handlerToWidget getExtra
+  $(widgetFile "appbar")
