@@ -1,5 +1,5 @@
-<form method=post action=@{DealerR}>
-  ^{formWidget}
-  <input type="submit" value="Create New Hand">
-<div>
+<div .col-xs-12>
+  <form method=post action=@{DealerR}>
+    ^{formWidget}
+<div .col-xs-12>
   ^{handlistWidget}
