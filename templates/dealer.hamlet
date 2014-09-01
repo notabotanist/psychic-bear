@@ -1,5 +1,7 @@
-<div .col-xs-12>
-  <form method=post action=@{DealerR}>
-    ^{formWidget}
-<div .col-xs-12>
-  ^{handlistWidget}
+<div .row>
+  <div .col-xs-12 .col-md-3>
+    <form method=post action=@{DealerR}>
+      ^{formWidget}
+      ^{newHandButton}
+  <div .col-xs-12 .col-md-9>
+    ^{handlistWidget}

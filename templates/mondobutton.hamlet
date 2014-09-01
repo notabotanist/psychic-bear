@@ -1,0 +1,4 @@
+<button .btn .btn-primary .btn-lg .square-box type="submit">
+  <div .square-content>
+    <div>
+      <span>#{buttonText}

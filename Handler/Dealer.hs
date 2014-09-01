@@ -32,7 +32,6 @@ mkBetGraph flatVotes@(f:_) = BetGraph (length flatVotes) (foldBars f flatVotes)
 handForm :: Form Hand
 handForm = renderBootstrap3 BootstrapBasicForm $ Hand
   <$> lift (liftIO getCurrentTime)
-  <*  bootstrapSubmit ("Create New Hand" :: BootstrapSubmit Text)
 
 getDealerR :: Handler Html
 getDealerR = do
@@ -40,6 +39,7 @@ getDealerR = do
   (formWidget, _) <- generateFormPost $ handForm
   let handView = DealerViewR
       handlistWidget = $(widgetFile "handlist")
+      newHandButton = mondoButtonWidget "Create New Hand"
   defaultLayout $ do
     appBarWidget "Dealer"
     $(widgetFile "dealer")

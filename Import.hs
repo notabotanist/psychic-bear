@@ -57,3 +57,7 @@ appBarWidget :: Text -> Widget
 appBarWidget appBarTitle = do
   primaryColor <- fmap extraPrimaryColor $ handlerToWidget getExtra
   $(widgetFile "appbar")
+
+mondoButtonWidget :: Text -> Widget
+mondoButtonWidget buttonText = do
+  $(widgetFile "mondobutton")
