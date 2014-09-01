@@ -1,2 +1,3 @@
-<header>
-  <h1>#{appBarTitle}
+<nav .navbar .navbar-static-top role="navigation">
+  <div .container>
+    <p .navbar-brand>#{appBarTitle}
