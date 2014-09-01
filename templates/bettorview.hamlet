@@ -1,9 +1,7 @@
 $doctype 5
-<h1>Bettor View
 $maybe msg <- mmesg
   <p>#{msg}
-<h2>Hand #{either pack id $ fromPersistValueText $ unKey handId}
 <p>You are User ID #{show userId}
-<form method=post action=@{BetsR handId userId}>
+<form method=post action=@{BetsR handId userId} role="form">
   ^{formWidget}
-  <input type=submit value="Place your bet">
+  <button type=submit .btn .btn-primary .btn-block .btn-lg>Place your bet

@@ -33,10 +33,10 @@ insertOrUpdateBet bet@(ScrumBet handId userId _ _) = do
     Just (Entity oldBetId _) -> replace oldBetId bet >> return oldBetId
 
 scrumBetForm :: HandId -> Int -> Form ScrumBet
-scrumBetForm handId userId = renderBootstrap $ ScrumBet
+scrumBetForm handId userId = renderBootstrap3 BootstrapBasicForm $ ScrumBet
   <$> pure handId
   <*> pure userId
-  <*> areq (selectFieldList fibs) "Value" (Just F0)
+  <*> areq (selectFieldList fibs) (bfs ("Value" :: Text)) (Just F0)
   <*> lift (liftIO getCurrentTime)
   where
     fibs = map (toText &&& id) [(F0)..]
