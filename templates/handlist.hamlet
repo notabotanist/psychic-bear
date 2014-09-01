@@ -1,4 +1,4 @@
-<ol>
+<h3>Recent Hands
+<div .list-group>
   $forall hand <- hands
-    <li>
-      <a href=@{handView hand}>#{either pack id $ fromPersistValueText $ unKey hand}
+    <a href=@{handView hand} .list-group-item>#{either pack id $ fromPersistValueText $ unKey hand}
