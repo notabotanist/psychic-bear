@@ -46,7 +46,7 @@ getHandsR = do
   hands <- fmap (map entityKey) getHandList
   let handView = BettorViewR
   defaultLayout $ do
-    appBarWidget "Hands"
+    appBarWidget "Hands" Nothing
     $(widgetFile "handlist")
 
 getBettorViewR :: HandId -> Handler Html
@@ -57,7 +57,7 @@ getBettorViewR handId = do
   mmesg <- getMessage
   betEntities <- getBidList handId
   defaultLayout $ do
-    appBarWidget $ makeHandTitleText handId
+    appBarWidget (makeHandTitleText handId) (Just HandsR)
     $(widgetFile "unanimous")
     $(widgetFile "bettorview")
 

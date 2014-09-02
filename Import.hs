@@ -33,6 +33,7 @@ import           Model.ScrumBet       as Import
 
 -- helper functions
 import Data.Text (append)
+import Yesod.Core (Route)
 
 getHandList :: Handler [Entity Hand]
 getHandList =
@@ -53,8 +54,8 @@ makeHandTitleText handId = append
   ("Hand " :: Text)
   (((either pack id).fromPersistValueText.unKey) handId)
 
-appBarWidget :: Text -> Widget
-appBarWidget appBarTitle = do
+appBarWidget :: Text -> Maybe (Route App) -> Widget
+appBarWidget appBarTitle mbackUrl = do
   primaryColor <- fmap extraPrimaryColor $ handlerToWidget getExtra
   $(widgetFile "appbar")
 

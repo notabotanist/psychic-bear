@@ -41,7 +41,7 @@ getDealerR = do
       handlistWidget = $(widgetFile "handlist")
       newHandButton = mondoButtonWidget "Create New Hand"
   defaultLayout $ do
-    appBarWidget "Dealer"
+    appBarWidget "Dealer" Nothing
     $(widgetFile "dealer")
 
 postDealerR :: Handler Html
@@ -59,6 +59,6 @@ getDealerViewR handId = do
   betEntities <- getBidList handId
   let betGraph = mkBetGraph . (map $ scrumBetValue . entityVal) $ betEntities
   defaultLayout $ do
-    appBarWidget $ makeHandTitleText handId
+    appBarWidget (makeHandTitleText handId) (Just DealerR)
     $(widgetFile "unanimous")
     $(widgetFile "dealerview")
