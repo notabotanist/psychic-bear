@@ -1,0 +1,13 @@
+.voteBar {
+  -webkit-animation-duration: 250ms;
+  -webkit-animation-name: voteBarGrow;
+  -webkit-animation-timing-function: ease-out;
+  height: 100%;
+  overflow:auto;
+}
+
+@-webkit-keyframes voteBarGrow {
+  from {
+    width: 0px;
+  }
+}

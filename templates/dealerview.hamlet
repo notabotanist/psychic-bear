@@ -1,11 +1,13 @@
 $doctype 5
-<h1>Dealer View
-<h2>Hand #{either pack id $ fromPersistValueText $ unKey handId} Votes:
-<table>
-  <tr>
-    <td>Points
-    <td>Number of Votes
-  $forall bar <- (bars betGraph)
+<p>Total Votes: #{numVotes betGraph}
+<table .table>
+  <thead>
     <tr>
-      <td>#{toText $ label bar}
-      <td>#{barCount bar}
+      <th .col-xs-1>Points
+      <th>Votes
+  <tbody>
+    $forall bar <- (bars betGraph)
+      <tr>
+        <td>#{toText $ label bar}
+        <td>
+          <div style="width:#{show $ (/) ((*) 100 (fromIntegral $ barCount bar)) (fromIntegral $ numVotes betGraph)}%" .voteBar .accent-color-back>
