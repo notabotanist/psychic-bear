@@ -5,7 +5,7 @@ import Database.Persist.TH
 import Data.Text (Text)
 
 data FibonacciSubset = F0 | F1 | F2 | F3 | F5 | F8 | F13 | F21 | F34 | F55
-  deriving (Show, Read, Eq, Enum)
+  deriving (Show, Read, Eq, Enum, Ord)
 
 toText :: FibonacciSubset -> Text
 toText f = fibTextList !! (fromEnum f)

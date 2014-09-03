@@ -2,6 +2,7 @@ module Handler.Dealer where
 
 import Import
 import Data.Time (getCurrentTime)
+import Data.List (sort)
 
 data BetGraphBar = BetGraphBar
   { label :: FibonacciSubset
@@ -15,6 +16,7 @@ data BetGraph = BetGraph
   , bars :: [BetGraphBar]
   }
 
+-- |Make sure you call with a sorted list, or else INFINITE RECURSION will happen
 mkBetGraph :: [FibonacciSubset] -> BetGraph
 mkBetGraph [] = BetGraph 0 []
 mkBetGraph flatVotes@(f:_) = BetGraph (length flatVotes) (foldBars f flatVotes)
@@ -57,7 +59,7 @@ getDealerViewR :: HandId -> Handler Html
 getDealerViewR handId = do
   _ <- runDB $ get404 handId
   betEntities <- getBidList handId
-  let betGraph = mkBetGraph . (map $ scrumBetValue . entityVal) $ betEntities
+  let betGraph = mkBetGraph . sort . (map $ scrumBetValue . entityVal) $ betEntities
   defaultLayout $ do
     appBarWidget (makeHandTitleText handId) (Just DealerR)
     $(widgetFile "unanimous")

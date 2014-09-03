@@ -3,7 +3,7 @@ Default: &defaults
   port: 3000
   #approot: "http://localhost:3000"
   approot: "http://192.168.1.8:3000"
-  copyright: Insert copyright statement here
+  copyright: Allan please add copyright statement here
   primaryColor: "#5677fc" # material blue 500
   accentColor: "#5af158" # material green A200
   #analytics: UA-YOURCODE
@@ -18,5 +18,5 @@ Staging:
   <<: *defaults
 
 Production:
-  #approot: "http://www.example.com"
+  approot: "http://71.244.111.207:3000"
   <<: *defaults
