@@ -9,6 +9,8 @@
 /dealer DealerR GET POST
 /dealer/#HandId DealerViewR GET
 
+/showdown/#HandId ShowdownR GET POST
+
 /hands HandsR GET
 /hands/#HandId BettorViewR GET
 
