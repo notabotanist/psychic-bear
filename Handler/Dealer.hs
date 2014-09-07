@@ -34,6 +34,7 @@ mkBetGraph flatVotes@(f:_) = BetGraph (length flatVotes) (foldBars f flatVotes)
 handForm :: Form Hand
 handForm = renderBootstrap3 BootstrapBasicForm $ Hand
   <$> lift (liftIO getCurrentTime)
+  <*> pure Nothing
 
 getDealerR :: Handler Html
 getDealerR = do

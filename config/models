@@ -10,6 +10,7 @@ Email
     UniqueEmail email
 Hand
     createdDate UTCTime
+    showdownTime UTCTime Maybe
     deriving Show
 ScrumBet
     hand HandId
