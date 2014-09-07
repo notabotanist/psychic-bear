@@ -34,6 +34,8 @@ import           Model.ScrumBet       as Import
 -- helper functions
 import Data.Text (append)
 import Yesod.Core (Route)
+import Data.Time.Format.Human (humanReadableTime')
+import Data.Time.Clock (getCurrentTime)
 
 getHandList :: Handler [Entity Hand]
 getHandList =
@@ -54,6 +56,8 @@ makeHandTitleText handId = append
   ("Hand " :: Text)
   (((either pack id).fromPersistValueText.unKey) handId)
 
+-- Global Widgets
+
 appBarWidget :: Text -> Maybe (Route App) -> Widget
 appBarWidget appBarTitle mbackUrl = do
   primaryColor <- fmap extraPrimaryColor $ handlerToWidget getExtra
@@ -62,3 +66,9 @@ appBarWidget appBarTitle mbackUrl = do
 mondoButtonWidget :: Text -> Widget
 mondoButtonWidget buttonText = do
   $(widgetFile "mondobutton")
+
+handListWidget :: (HandId -> Route App) -> Widget
+handListWidget handView = do
+  handEntities <- handlerToWidget getHandList
+  curTime <- liftIO getCurrentTime
+  $(widgetFile "handlist")

@@ -43,11 +43,9 @@ scrumBetForm handId userId = renderBootstrap3 BootstrapBasicForm $ ScrumBet
 
 getHandsR :: Handler Html
 getHandsR = do
-  hands <- fmap (map entityKey) getHandList
-  let handView = BettorViewR
   defaultLayout $ do
     appBarWidget "Hands" Nothing
-    $(widgetFile "handlist")
+    handListWidget BettorViewR
 
 getBettorViewR :: HandId -> Handler Html
 getBettorViewR handId = do

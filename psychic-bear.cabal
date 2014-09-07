@@ -74,6 +74,7 @@ library
                  , safe                          >= 0.3.7      && < 0.3.9
                  , time                          >= 1.4.0.1    && < 1.4.2
                  , random                        >= 1.0
+                 , friendly-time
 
 executable         psychic-bear
     if flag(library-only)

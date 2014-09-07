@@ -1,4 +1,4 @@
 <h3>Recent Hands
 <div .list-group>
-  $forall hand <- hands
-    <a href=@{handView hand} .list-group-item>#{either pack id $ fromPersistValueText $ unKey hand}
+  $forall hand <- handEntities
+    <a href=@{handView (entityKey hand)} .list-group-item>#{((.) (either pack id) ((.) fromPersistValueText ((.) unKey entityKey))) hand} - Created #{((.) (humanReadableTime' curTime) ((.) handCreatedDate entityVal)) hand}

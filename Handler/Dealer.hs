@@ -37,10 +37,8 @@ handForm = renderBootstrap3 BootstrapBasicForm $ Hand
 
 getDealerR :: Handler Html
 getDealerR = do
-  hands <- fmap (map entityKey) getHandList
   (formWidget, _) <- generateFormPost $ handForm
-  let handView = DealerViewR
-      handlistWidget = $(widgetFile "handlist")
+  let handlistWidget = handListWidget DealerViewR
       newHandButton = mondoButtonWidget "Create New Hand"
   defaultLayout $ do
     appBarWidget "Dealer" Nothing
