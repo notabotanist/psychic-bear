@@ -4,7 +4,7 @@ import Import
 import Control.Arrow ((&&&))
 import Data.Time (getCurrentTime)
 import Safe (readMay)
-import Data.Text (unpack)
+import Data.Text (unpack, append)
 import System.Random (randomRIO)
 
 userIdSessionKey :: Text
@@ -69,11 +69,13 @@ postBetsR handId userId = do
       case formResult of
         FormSuccess bet -> do
           _ <- runDB $ insertOrUpdateBet bet
-          setMessage $ "Vote submitted."
+          setMessage . toHtml $ prependFS bet " - Bet submitted."
           redirect $ BettorViewR handId
-        _ -> reject
-    _ -> reject
+        _ -> reject "Bet rejected."
+    Just False -> reject "Bet rejected - round over"
+    Nothing -> reject "Betting not yet open"
   where
-    reject = do
-      setMessage "Vote rejected."
+    prependFS fs = append (toText . scrumBetValue $ fs)
+    reject msg = do
+      setMessage msg
       redirect $ BettorViewR handId
