@@ -61,13 +61,19 @@ getBettorViewR handId = do
 
 postBetsR :: HandId -> Int -> Handler ()
 postBetsR handId userId = do
-  _ <- runDB $ get404 handId
-  ((formResult, _),_) <- runFormPost $ scrumBetForm handId userId
-  case formResult of
-    FormSuccess bet -> do
-      _ <- runDB $ insertOrUpdateBet bet
-      setMessage $ "Vote submitted."
-      redirect $ BettorViewR handId
-    _ -> do
-      setMessage $ "Vote rejected."
+  hand <- runDB $ get404 handId
+  curTime <- liftIO $ getCurrentTime
+  case ((<) curTime) <$> handShowdownTime hand of
+    Just True -> do
+      ((formResult, _),_) <- runFormPost $ scrumBetForm handId userId
+      case formResult of
+        FormSuccess bet -> do
+          _ <- runDB $ insertOrUpdateBet bet
+          setMessage $ "Vote submitted."
+          redirect $ BettorViewR handId
+        _ -> reject
+    _ -> reject
+  where
+    reject = do
+      setMessage "Vote rejected."
       redirect $ BettorViewR handId
