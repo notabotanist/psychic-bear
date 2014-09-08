@@ -42,8 +42,10 @@ getHandList =
   runDB $ selectList [] [ Desc HandCreatedDate, LimitTo 5 ]
 
 getBidList :: HandId -> Handler [Entity ScrumBet]
-getBidList handId =
-  runDB $ selectList [ ScrumBetHand ==. handId ] []
+getBidList = runDB . getBidListDB
+
+getBidListDB :: HandId -> YesodDB App [Entity ScrumBet]
+getBidListDB handId = selectList [ ScrumBetHand ==. handId ] []
 
 getUnanimous :: [ScrumBet] -> Maybe FibonacciSubset
 getUnanimous [] = Nothing
