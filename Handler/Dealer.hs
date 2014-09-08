@@ -31,6 +31,14 @@ mkBetGraph flatVotes@(f:_) = BetGraph (length flatVotes) (foldBars f flatVotes)
     
 -- End pure util functions.
 
+-- Widgets
+callVoteWidget :: HandId -> Widget
+callVoteWidget handId = do
+  timerId <- newIdent
+  timerStart <- handlerToWidget $ extraVotingWindow <$> getExtra
+  $(widgetFile "callvote")
+-- End Widgets
+
 handForm :: Form Hand
 handForm = renderBootstrap3 BootstrapBasicForm $ Hand
   <$> lift (liftIO getCurrentTime)

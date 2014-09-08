@@ -1,13 +1,17 @@
 $doctype 5
-<p>Total Votes: #{numVotes betGraph}
-<table .table>
-  <thead>
-    <tr>
-      <th .col-xs-1>Points
-      <th>Votes
-  <tbody>
-    $forall bar <- (bars betGraph)
-      <tr>
-        <td>#{toText $ label bar}
-        <td>
-          <div style="width:#{show $ (/) ((*) 100 (fromIntegral $ barCount bar)) (fromIntegral $ numVotes betGraph)}%" .voteBar .accent-color-back>
+<div .row>
+  <div .col-md-4>
+    ^{callVoteWidget handId}
+  <div .col-md-8>
+    <p>Total Votes: #{numVotes betGraph}
+    <table .table>
+      <thead>
+        <tr>
+          <th .col-xs-1>Points
+          <th>Votes
+      <tbody>
+        $forall bar <- (bars betGraph)
+          <tr>
+            <td>#{toText $ label bar}
+            <td>
+              <div style="width:#{show $ (/) ((*) 100 (fromIntegral $ barCount bar)) (fromIntegral $ numVotes betGraph)}%" .voteBar .accent-color-back>
