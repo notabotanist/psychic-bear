@@ -1,0 +1,29 @@
+function startCountdown(seconds) {
+  window.setTimeout(endCountdown, seconds * 1000);
+}
+
+function endCountdown() {
+  // perform AJAX
+  var consensusRequest = new XMLHttpRequest();
+
+  consensusRequest.onreadystatechange = function () {
+    if (consensusRequest.readyState === 4 && consensusRequest.status === 200)
+    {
+      var consensus = JSON.parse(consensusRequest.responseText);
+
+      if (consensus.hasOwnProperty("consensus"))
+      {
+        if (consensus.consensus != null)
+        {
+          document.getElementById("#{rawJS notificationId}").style.display = "block";
+          document.getElementById("#{rawJS valueId}").innerHTML = consensus.consensus;
+        }
+        // no consensus
+      }
+      // no consensus allowed
+    }
+  }
+
+  consensusRequest.open("GET", "@{ShowdownR handId}", true);
+  consensusRequest.send(null);
+}

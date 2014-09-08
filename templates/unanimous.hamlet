@@ -1,3 +1,2 @@
-$maybe unanimousValue <- ((.) getUnanimous (map entityVal) $ betEntities)
-  <div .alert .alert-success role="alert">It's unanimous: #
-    <strong>#{toText unanimousValue}
+<div ##{notificationId} .alert .alert-success role="alert" style="display:none">It's unanimous: #
+  <strong ##{valueId}>No it isn't.

@@ -2,7 +2,7 @@ module Handler.Hands where
 
 import Import
 import Control.Arrow ((&&&))
-import Data.Time (getCurrentTime)
+import Data.Time (getCurrentTime, diffUTCTime)
 import Safe (readMay)
 import Data.Text (unpack, append)
 import System.Random (randomRIO)
@@ -49,15 +49,23 @@ getHandsR = do
 
 getBettorViewR :: HandId -> Handler Html
 getBettorViewR handId = do
-  _ <- runDB $ get404 handId
+  hand <- runDB $ get404 handId
   userId <- getOrGenerateUserId
   ((_, formWidget), _) <- runFormPost $ scrumBetForm handId userId
   mmesg <- getMessage
   betEntities <- getBidList handId
+  curTime <- liftIO $ getCurrentTime
+  let autoGetConsensus = case handShowdownTime hand of
+        (Just stime) -> if curTime < stime
+          then let secondsToConsensus = truncate $ diffUTCTime stime curTime :: Int
+            in toWidget [julius|startCountdown(#{toJSON secondsToConsensus});|]
+          else mempty
+        _            -> mempty
   defaultLayout $ do
     appBarWidget (makeHandTitleText handId) (Just HandsR)
-    $(widgetFile "unanimous")
+    unanimousWidget handId betEntities
     $(widgetFile "bettorview")
+    autoGetConsensus
 
 postBetsR :: HandId -> Int -> Handler ()
 postBetsR handId userId = do

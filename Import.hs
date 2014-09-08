@@ -30,6 +30,7 @@ infixr 5 <>
 #endif
 
 import           Model.ScrumBet       as Import
+import           Text.Julius          as Import
 
 -- helper functions
 import Data.Text (append)
@@ -74,3 +75,9 @@ handListWidget handView = do
   handEntities <- handlerToWidget getHandList
   curTime <- liftIO getCurrentTime
   $(widgetFile "handlist")
+
+unanimousWidget :: HandId -> [Entity ScrumBet] -> Widget
+unanimousWidget handId betEntities = do
+  notificationId <- newIdent
+  valueId <- newIdent
+  $(widgetFile "unanimous")
