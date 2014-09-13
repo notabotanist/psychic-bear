@@ -3,6 +3,7 @@ module Handler.Showdown where
 import Import
 import Data.Time.Clock (getCurrentTime, addUTCTime)
 import Data.Aeson.Types (emptyObject)
+import Control.Arrow ((&&&))
 
 getShowdownR :: HandId -> Handler Value
 getShowdownR handId = do
@@ -18,9 +19,14 @@ getShowdownR handId = do
 
 postShowdownR :: HandId -> Handler Value
 postShowdownR handId = do
-  _ <- runDB $ get404 handId
+  hand <- runDB $ get404 handId
   votingWindow <- extraVotingWindow <$> getExtra
-  showdownTime <- addUTCTime (fromIntegral votingWindow) <$> (lift $ liftIO getCurrentTime)
-  runDB $ update handId [ HandShowdownTime =. Just showdownTime ]
-  return . toJSON $ object [ "showdown_time" .= showdownTime ]
+  curTime <- liftIO getCurrentTime
+  case ((curTime <) &&& id) <$> (handShowdownTime hand) of
+    (Just (True, stime)) -> do
+      return . toJSON $ object [ "showdown_time" .= stime ]
+    _                    -> do
+      let showdownTime = addUTCTime (fromIntegral votingWindow) curTime
+      runDB $ update handId [ HandShowdownTime =. Just showdownTime ]
+      return . toJSON $ object [ "showdown_time" .= showdownTime ]
 
