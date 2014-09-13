@@ -57,7 +57,7 @@ getBettorViewR handId = do
   curTime <- liftIO $ getCurrentTime
   let autoGetConsensus = case handShowdownTime hand of
         (Just stime) -> if curTime < stime
-          then let secondsToConsensus = truncate $ diffUTCTime stime curTime :: Int
+          then let secondsToConsensus = ceiling $ diffUTCTime stime curTime :: Int
             in toWidget [julius|startCountdown(#{toJSON secondsToConsensus});|]
           else mempty
         _            -> mempty
