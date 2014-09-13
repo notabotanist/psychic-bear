@@ -2,4 +2,4 @@
   <div .col-xs-4>
     <span .timer .accent-color ##{timerId}>#{timerStart}
   <div .col-xs-8>
-    <button .btn .btn-primary .btn-lg .btn-block onclick=callVote>Call Vote
+    <button .btn .btn-primary .btn-lg .btn-block onclick="callVote()">Call Vote

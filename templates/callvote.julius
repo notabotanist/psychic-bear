@@ -1,0 +1,30 @@
+function callVote() {
+  var showdownRequest = new XMLHttpRequest();
+
+  showdownRequest.onreadystatechange = function () {
+    if (showdownRequest.readyState === 4 && showdownRequest.status === 200)
+    {
+      var showdown = JSON.parse(showdownRequest.responseText);
+      var showdownTime = new Date(showdown.showdown_time);
+
+      window.setInterval(function () {
+        var curTime = new Date();
+        var showdownDelay = Math.ceil((showdownTime - curTime) / 1000);
+
+        if (showdownDelay < 0)
+        {
+          // countdown over: time to see the results!
+          location.reload();
+        }
+        else
+        {
+          // update display
+          document.getElementById('#{rawJS timerId}').innerHTML = showdownDelay;
+        }
+      }, 1000);
+    }
+  };
+
+  showdownRequest.open("POST", "@{ShowdownR handId}", true);
+  showdownRequest.send(null);
+}
