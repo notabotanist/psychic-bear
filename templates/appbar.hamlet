@@ -8,6 +8,6 @@
       <li>
         <a href=@{DealerR}>Master
     $maybe backUrl <- mbackUrl
-      <ul .nav .navbar-nav .navbar-right>
+      <ul .nav .navbar-right .navbar-nav style="float:right;">
         <li>
           <a href=@{backUrl}>Up
