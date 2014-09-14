@@ -81,3 +81,9 @@ unanimousWidget handId betEntities = do
   notificationId <- newIdent
   valueId <- newIdent
   $(widgetFile "unanimous")
+
+unanimousStaticWidget :: [Entity ScrumBet] -> Widget
+unanimousStaticWidget betEntities = do
+  case getUnanimous . (map entityVal) $ betEntities of
+    (Just consensus) -> $(widgetFile "unanimous_static")
+    Nothing          -> mempty

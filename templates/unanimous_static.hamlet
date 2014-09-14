@@ -1,0 +1,2 @@
+<div .alert .alert-success role="alert">It's unanimous: #
+  <strong>#{toText consensus}

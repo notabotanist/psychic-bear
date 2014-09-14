@@ -69,5 +69,5 @@ getDealerViewR handId = do
   let betGraph = mkBetGraph . sort . (map $ scrumBetValue . entityVal) $ betEntities
   defaultLayout $ do
     appBarWidget (makeHandTitleText handId) (Just DealerR)
-    unanimousWidget handId betEntities
+    unanimousStaticWidget betEntities
     $(widgetFile "dealerview")

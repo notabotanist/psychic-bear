@@ -41,6 +41,17 @@ scrumBetForm handId userId = renderBootstrap3 BootstrapBasicForm $ ScrumBet
   where
     fibs = map (toText &&& id) [(F0)..]
 
+generalUnanimousWidget :: HandId -> Hand -> [Entity ScrumBet] -> Widget
+generalUnanimousWidget handId hand betEntities = do
+  curTime <- liftIO $ getCurrentTime
+  case ((curTime<) &&& id) <$> handShowdownTime hand of
+    (Just (True, showdownTime)) -> do
+      let secondsToConsensus = ceiling $ diffUTCTime showdownTime curTime :: Int
+      unanimousWidget handId betEntities
+      toWidget [julius|startCountdown(#{toJSON secondsToConsensus});|]
+    (Just (False, _))           -> unanimousStaticWidget betEntities
+    Nothing                     -> mempty
+
 getHandsR :: Handler Html
 getHandsR = do
   defaultLayout $ do
@@ -54,18 +65,10 @@ getBettorViewR handId = do
   ((_, formWidget), _) <- runFormPost $ scrumBetForm handId userId
   mmesg <- getMessage
   betEntities <- getBidList handId
-  curTime <- liftIO $ getCurrentTime
-  let autoGetConsensus = case handShowdownTime hand of
-        (Just stime) -> if curTime < stime
-          then let secondsToConsensus = ceiling $ diffUTCTime stime curTime :: Int
-            in toWidget [julius|startCountdown(#{toJSON secondsToConsensus});|]
-          else mempty
-        _            -> mempty
   defaultLayout $ do
     appBarWidget (makeHandTitleText handId) (Just HandsR)
-    unanimousWidget handId betEntities
+    generalUnanimousWidget handId hand betEntities
     $(widgetFile "bettorview")
-    autoGetConsensus
 
 postBetsR :: HandId -> Int -> Handler ()
 postBetsR handId userId = do
