@@ -1,0 +1,24 @@
+Default: &defaults
+  user: psychic-bear
+  password: psychic-bear
+  host: localhost
+  port: 5432
+  database: psychic-bear
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: psychic-bear_test
+  <<: *defaults
+
+Staging:
+  database: psychic-bear_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: psychic-bear_production
+  poolsize: 100
+  <<: *defaults
