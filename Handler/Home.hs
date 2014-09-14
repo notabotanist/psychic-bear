@@ -15,10 +15,9 @@ getHomeR = do
     (formWidget, formEnctype) <- generateFormPost sampleForm
     let submission = Nothing :: Maybe (FileInfo, Text)
         handlerName = "getHomeR" :: Text
-        appBarTitle = "Home" :: Text
     defaultLayout $ do
         aDomId <- newIdent
-        setTitle "Welcome To Yesod!"
+        appBarWidget "Home" Nothing
         $(widgetFile "homepage")
 
 postHomeR :: Handler Html
