@@ -1,7 +1,13 @@
 <nav .navbar .navbar-static-top role="navigation">
   <div .container>
     <div .navbar-header>
-      $maybe backUrl <- mbackUrl
-        <button type="button" .navbar-toggle>
-          <a href=@{backUrl}>Up
       <p .navbar-brand>#{appBarTitle}
+    <ul .nav .navbar-nav>
+      <li>
+        <a href=@{HandsR}>Team
+      <li>
+        <a href=@{DealerR}>Master
+    $maybe backUrl <- mbackUrl
+      <ul .nav .navbar-nav .navbar-right>
+        <li>
+          <a href=@{backUrl}>Up
