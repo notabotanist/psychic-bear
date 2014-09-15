@@ -19,5 +19,5 @@ Staging:
   <<: *defaults
 
 Production:
-  approot: "http://71.244.111.207:3000"
+  approot: "http://murmuring-everglades-3819.herokuapp.com"
   <<: *defaults
