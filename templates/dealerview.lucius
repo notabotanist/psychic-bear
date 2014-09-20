@@ -3,7 +3,11 @@
   -webkit-animation-name: voteBarGrow;
   -webkit-animation-timing-function: ease-out;
   height: 100%;
-  overflow:auto;
+
+  span {
+    padding-left: 15px;
+    font-weight: bold;
+  }
 }
 
 @-webkit-keyframes voteBarGrow {
