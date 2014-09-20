@@ -15,3 +15,4 @@ $doctype 5
             <td>#{toText $ label bar}
             <td>
               <div style="width:#{show $ (/) ((*) 100 (fromIntegral $ barCount bar)) (fromIntegral $ numVotes betGraph)}%" .voteBar .accent-color-back>
+                <span>#{barCount bar}
